@@ -1,5 +1,7 @@
 # MCStatus Self-Hosted
 
+![VibeCoded with Claude Opus 5.5](https://img.shields.io/badge/VibeCoded%20with-Claude%20Opus%205.5-D97757?logo=claude&logoColor=white)
+
 Run the MCStatus Discord bot from inside your own Minecraft server, using your own bot.
 
 - `/status` shows the server status panel (`/status <server>` when you have several servers).
