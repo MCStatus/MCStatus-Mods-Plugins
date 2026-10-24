@@ -7,7 +7,7 @@
 
 # Your own bot's token. Create a bot at https://discord.com/developers/applications
 # (Bot page -> Reset Token), then invite it with the "bot" and "applications.commands"
-# scopes and the Send Messages, Embed Links and Read Message History permissions.
+# scopes and the View Channels, Send Messages, Embed Links, Attach Files and Read Message History permissions.
 bot-token: ""
 
 # The ID of your Discord server, so /status shows up instantly.

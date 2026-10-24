@@ -67,7 +67,7 @@ switches to offline when the server stops. Proxy rows list the proxy itself and 
 1. Create an application at https://discord.com/developers/applications and copy the token from the **Bot** page.
    If you want a text prefix like `!status`, also turn on **Message Content Intent** on that page.
 2. Invite the bot to your server (replace `CLIENT_ID` with your application ID):
-   `https://discord.com/oauth2/authorize?client_id=CLIENT_ID&scope=bot+applications.commands&permissions=84992`
+   `https://discord.com/oauth2/authorize?client_id=CLIENT_ID&scope=bot+applications.commands&permissions=117760`
 3. Start the server once to generate the config:
    - Paper/Spigot/BungeeCord: `plugins/MCStatus/config.yml`
    - Velocity: `plugins/mcstatus/config.yml`
