@@ -3,7 +3,7 @@ package me.mcstatus.selfhosted;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -25,7 +25,7 @@ final class ModEntry {
         }
 
         int port = 25565;
-        try (Reader reader = Files.newBufferedReader(Path.of("server.properties"))) {
+        try (Reader reader = Files.newBufferedReader(Paths.get("server.properties"))) {
             Properties props = new Properties();
             props.load(reader);
             port = Integer.parseInt(props.getProperty("server-port", "25565").trim());
@@ -33,15 +33,15 @@ final class ModEntry {
             // first boot writes server.properties later; vanilla default it is
         }
 
-        MCStatus mc = MCStatus.start(Path.of("config", "mcstatus"), port, slf4jLogger());
+        MCStatus mc = MCStatus.start(Paths.get("config", "mcstatus"), port, log4jLogger());
         if (mc != null) {
             Runtime.getRuntime().addShutdownHook(new Thread(mc::stop, "MCStatus-Shutdown"));
         }
     }
 
-    /** A JUL logger that writes through SLF4J, which Minecraft has shipped since 1.18. */
-    private static Logger slf4jLogger() {
-        org.slf4j.Logger out = org.slf4j.LoggerFactory.getLogger("MCStatus");
+    /** A JUL logger that writes through log4j, which every Minecraft version ships. */
+    private static Logger log4jLogger() {
+        org.apache.logging.log4j.Logger out = org.apache.logging.log4j.LogManager.getLogger("MCStatus");
         Logger log = Logger.getLogger("MCStatus");
         log.setUseParentHandlers(false);
         log.addHandler(new Handler() {

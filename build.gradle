@@ -13,24 +13,32 @@ repositories {
     maven { url = 'https://repo.papermc.io/repository/maven-public/' }
 }
 
-// Compile-only copies of the three mod-loader entrypoint types; the real ones come from the loader at runtime.
-sourceSets { stubs }
+sourceSets {
+    // Compile-only copies of the three mod-loader entrypoint types; the real ones come from the loader at runtime.
+    stubs
+    // Velocity's API needs Java 11, while everything else stays on Java 8 for Minecraft 1.16
+    velocity { compileClasspath += main.output }
+}
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT'
+    // Oldest supported APIs, so anything newer than Minecraft 1.16 offers fails to compile
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly 'net.md-5:bungeecord-api:1.21-R0.4'
-    compileOnly 'com.velocitypowered:velocity-api:3.4.0'
-    compileOnly 'com.google.code.gson:gson:2.8.9'
-    compileOnly 'org.slf4j:slf4j-api:1.7.36'
+    compileOnly 'com.google.code.gson:gson:2.8.0'
+    compileOnly 'org.apache.logging.log4j:log4j-api:2.8.1'
+    velocityCompileOnly 'com.velocitypowered:velocity-api:3.1.1'
     compileOnly sourceSets.stubs.output
     implementation 'org.yaml:snakeyaml:2.3'
-    testImplementation 'com.google.code.gson:gson:2.8.9'
+    testImplementation 'com.google.code.gson:gson:2.8.0'
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-    options.release = 17
+    options.release = 8
+    options.compilerArgs << '-Xlint:-options' // "release 8 is obsolete" (it's the point)
 }
+compileVelocityJava.options.release = 11
+compileTestJava.options.release = 17
 
 processResources {
     def props = [version: version]
@@ -39,6 +47,7 @@ processResources {
 }
 
 shadowJar {
+    from sourceSets.velocity.output
     archiveBaseName = 'MCStatus-Selfhosted'
     archiveClassifier = ''
     relocate 'org.yaml.snakeyaml', 'me.mcstatus.selfhosted.lib.snakeyaml'

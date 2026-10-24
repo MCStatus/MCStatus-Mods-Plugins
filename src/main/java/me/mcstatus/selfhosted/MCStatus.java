@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,8 +35,37 @@ public final class MCStatus {
     private static final int MAX_SERVERS = 5;
     private static final String COMMAND_NAME = "[-_\\p{L}\\p{N}]{1,32}"; // Discord's rule for command/option names
 
-    /** {@code maxPlayers} is -1 when not set. */
-    record Server(String name, String host, int port, String footer, String website, String icon, String version, int maxPlayers) {}
+    static final class Server {
+        private final String name;
+        private final String host;
+        private final int port;
+        private final String footer;
+        private final String website;
+        private final String icon;
+        private final String version;
+        private final int maxPlayers;
+
+        Server(String name, String host, int port, String footer, String website, String icon, String version, int maxPlayers) {
+            this.name = name;
+            this.host = host;
+            this.port = port;
+            this.footer = footer;
+            this.website = website;
+            this.icon = icon;
+            this.version = version;
+            this.maxPlayers = maxPlayers;
+        }
+
+        String name() { return name; }
+        String host() { return host; }
+        int port() { return port; }
+        String footer() { return footer; }
+        String website() { return website; }
+        String icon() { return icon; }
+        String version() { return version; }
+        /** -1 when not set. */
+        int maxPlayers() { return maxPlayers; }
+    }
 
     private final Logger log;
     private final String guildId;
@@ -110,7 +140,7 @@ public final class MCStatus {
         this.guildId = str(config, "discord-server-id");
         this.prefix = str(config, "prefix");
         this.channelId = str(config, "live-update-channel-id");
-        this.interval = Math.max(10, config.get("live-update-interval") instanceof Number n ? n.intValue() : 30);
+        this.interval = Math.max(10, config.get("live-update-interval") instanceof Number ? ((Number) config.get("live-update-interval")).intValue() : 30);
         this.servers = parseServers(config.get("servers"), selfPort);
 
         // Keys missing from an older config.yml fall back to the defaults bundled in the jar
@@ -130,19 +160,20 @@ public final class MCStatus {
     }
 
     private List<Server> parseServers(Object raw, int selfPort) {
-        if (!(raw instanceof List<?> list) || list.isEmpty()) {
+        if (!(raw instanceof List) || ((List<?>) raw).isEmpty()) {
             throw new IllegalArgumentException("add at least one entry under servers:");
         }
+        List<?> list = (List<?>) raw;
         if (list.size() > MAX_SERVERS) {
             log.warning("Only the first " + MAX_SERVERS + " servers in config.yml are used");
         }
 
         List<Server> result = new ArrayList<>();
         for (Object o : list.subList(0, Math.min(list.size(), MAX_SERVERS))) {
-            if (!(o instanceof Map<?, ?> m)) {
+            if (!(o instanceof Map)) {
                 throw new IllegalArgumentException("each entry under servers: needs name: and address:");
             }
-            @SuppressWarnings("unchecked") Map<String, Object> s = (Map<String, Object>) m;
+            @SuppressWarnings("unchecked") Map<String, Object> s = (Map<String, Object>) o;
 
             String name = str(s, "name");
             if (name.isEmpty()) {
@@ -167,7 +198,7 @@ public final class MCStatus {
                 }
             }
 
-            int max = s.get("max-players") instanceof Number n ? n.intValue() : -1;
+            int max = s.get("max-players") instanceof Number ? ((Number) s.get("max-players")).intValue() : -1;
             result.add(new Server(name, host, port, str(s, "footer"), str(s, "website"), str(s, "icon-url"), str(s, "version"), max));
         }
         return result;
@@ -176,8 +207,8 @@ public final class MCStatus {
     @SuppressWarnings("unchecked")
     private static Map<String, Object> section(Map<String, Object> defaults, Map<String, Object> config, String key) {
         Map<String, Object> merged = new HashMap<>((Map<String, Object>) defaults.get(key));
-        if (config.get(key) instanceof Map<?, ?> user) {
-            merged.putAll((Map<String, Object>) user);
+        if (config.get(key) instanceof Map) {
+            merged.putAll((Map<String, Object>) config.get(key));
         }
         return merged;
     }
@@ -234,10 +265,17 @@ public final class MCStatus {
     private void onEvent(String type, JsonObject d) {
         try {
             switch (type) {
-                case "READY" -> onReady(d);
-                case "INTERACTION_CREATE" -> onInteraction(d);
-                case "MESSAGE_CREATE" -> onMessage(d);
-                default -> {}
+                case "READY":
+                    onReady(d);
+                    break;
+                case "INTERACTION_CREATE":
+                    onInteraction(d);
+                    break;
+                case "MESSAGE_CREATE":
+                    onMessage(d);
+                    break;
+                default:
+                    break;
             }
         } catch (IOException e) {
             log.warning("Discord " + type + " failed: " + e.getMessage());
@@ -278,7 +316,7 @@ public final class MCStatus {
         }
         JsonArray commands = new JsonArray();
         commands.add(status);
-        discord.api("PUT", "/applications/" + appId + (guildId.isEmpty() ? "" : "/guilds/" + guildId) + "/commands", commands, Map.of());
+        discord.api("PUT", "/applications/" + appId + (guildId.isEmpty() ? "" : "/guilds/" + guildId) + "/commands", commands, Collections.emptyMap());
     }
 
     private void onInteraction(JsonObject d) throws IOException {
@@ -292,7 +330,7 @@ public final class MCStatus {
         JsonObject defer = new JsonObject();
         defer.addProperty("type", 5);
         String token = d.get("token").getAsString();
-        discord.api("POST", "/interactions/" + d.get("id").getAsString() + "/" + token + "/callback", defer, Map.of());
+        discord.api("POST", "/interactions/" + d.get("id").getAsString() + "/" + token + "/callback", defer, Collections.emptyMap());
 
         Map<String, byte[]> files = new LinkedHashMap<>();
         discord.api("PATCH", "/webhooks/" + appId + "/" + token + "/messages/@original", statusReply(name, files), files);
@@ -386,7 +424,7 @@ public final class MCStatus {
 
     /** Reuses the bot's most recent status message in the channel so restarts don't spam new ones. */
     private String findOwnMessage() throws IOException {
-        for (JsonElement m : discord.api("GET", "/channels/" + channelId + "/messages?limit=50", null, Map.of()).getAsJsonArray()) {
+        for (JsonElement m : discord.api("GET", "/channels/" + channelId + "/messages?limit=50", null, Collections.emptyMap()).getAsJsonArray()) {
             JsonObject msg = m.getAsJsonObject();
             if (msg.getAsJsonObject("author").get("id").getAsString().equals(selfId) && msg.getAsJsonArray("embeds").size() > 0) {
                 return msg.get("id").getAsString();

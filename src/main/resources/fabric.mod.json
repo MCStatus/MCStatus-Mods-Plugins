@@ -8,5 +8,5 @@
   "contact": {"homepage": "https://mcstatus.me"},
   "environment": "server",
   "entrypoints": {"server": ["me.mcstatus.selfhosted.FabricMod"]},
-  "depends": {"fabricloader": ">=0.14.0", "minecraft": ">=1.18", "java": ">=17"}
+  "depends": {"fabricloader": ">=0.14.0", "minecraft": ">=1.16", "java": ">=8"}
 }

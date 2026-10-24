@@ -20,8 +20,31 @@ import java.util.List;
 /** Minecraft Java server list ping, the same data the MCStatus bot reads. */
 final class Ping {
 
-    /** {@code icon} is the server-icon.png bytes, or null when the server has none. */
-    record Status(String motd, String version, int online, int max, List<String> players, byte[] icon) {}
+    static final class Status {
+        private final String motd;
+        private final String version;
+        private final int online;
+        private final int max;
+        private final List<String> players;
+        private final byte[] icon;
+
+        Status(String motd, String version, int online, int max, List<String> players, byte[] icon) {
+            this.motd = motd;
+            this.version = version;
+            this.online = online;
+            this.max = max;
+            this.players = players;
+            this.icon = icon;
+        }
+
+        String motd() { return motd; }
+        String version() { return version; }
+        int online() { return online; }
+        int max() { return max; }
+        List<String> players() { return players; }
+        /** The server-icon.png bytes, or null when the server has none. */
+        byte[] icon() { return icon; }
+    }
 
     private static final int TIMEOUT_MS = 3000;
 
@@ -59,7 +82,7 @@ final class Ping {
     }
 
     static Status parse(String json) {
-        JsonObject root = JsonParser.parseString(json).getAsJsonObject();
+        JsonObject root = new JsonParser().parse(json).getAsJsonObject();
 
         String version = "Unknown";
         if (root.has("version") && root.getAsJsonObject("version").has("name")) {

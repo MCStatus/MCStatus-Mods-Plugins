@@ -15,14 +15,14 @@ One jar, `MCStatus-Selfhosted-<version>.jar`, works on all of these:
 
 | Platform | Versions | Install to |
 |---|---|---|
-| Paper / Spigot | 1.18 – 26.x | `plugins/` |
-| Fabric | 1.18 – 26.x (Fabric API not needed) | `mods/` |
-| Forge | 1.18 – 26.x | `mods/` |
+| Paper / Spigot | 1.16 – 26.x | `plugins/` |
+| Fabric | 1.16 – 26.x (Fabric API not needed) | `mods/` |
+| Forge | 1.16 – 26.x | `mods/` |
 | NeoForge | 1.20.1 – 26.x | `mods/` |
 | Velocity | 3.x, 4.x | `plugins/` |
 | BungeeCord / Waterfall | current | `plugins/` |
 
-The mod is server-side only, so players don't need to install it.
+The mod is server-side only, so players don't need to install it. Any Java version the server runs on works (Java 8+).
 
 ## Tested versions
 
@@ -32,16 +32,23 @@ switches to offline when the server stops. Proxy rows list the proxy itself and 
 
 | Platform | Minecraft | Loader / build | Java |
 |---|---|---|---|
+| Paper | 1.16.5 | Paper build 794 | 8 |
+| Paper | 1.17.1 | Paper build 411 | 17 |
 | Paper | 1.18.2 | Paper build 388 | 17 |
 | Paper | 1.20.4 | Paper build 499 | 17 |
 | Paper | 1.21.4 | Paper build 232 | 21 |
 | Paper | 26.1.2 | Paper build 74 | 25 |
 | Paper | 26.3 | Paper build 218 | 25 |
+| Fabric | 1.16.5 | Fabric Loader 0.20.1 | 8 |
+| Fabric | 1.17.1 | Fabric Loader 0.20.1 | 17 |
 | Fabric | 1.18.2 | Fabric Loader 0.20.1 | 17 |
 | Fabric | 1.20.1 | Fabric Loader 0.20.1 | 17 |
 | Fabric | 1.21.1 | Fabric Loader 0.20.1 | 21 |
 | Fabric | 26.1.2 | Fabric Loader 0.20.1 | 25 |
 | Fabric | 26.3 | Fabric Loader 0.20.1 | 25 |
+| Forge | 1.16.5 | Forge 36.2.42 | 8 |
+| Forge | 1.16.5 | Forge 36.2.42 | 11 |
+| Forge | 1.17.1 | Forge 37.1.1 | 17 |
 | Forge | 1.18.2 | Forge 40.3.0 | 17 |
 | Forge | 1.19.2 | Forge 43.5.0 | 17 |
 | Forge | 1.20.1 | Forge 47.4.28 | 17 |
