@@ -1,0 +1,39 @@
+name: Release
+
+# Builds the jar (one jar runs on Paper/Spigot, Fabric, Forge, NeoForge, Velocity and BungeeCord,
+# Minecraft 1.18 - 26.x) and attaches it to the GitHub release.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: ./gradlew build -PreleaseVersion="${TAG#v}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MCStatus-Selfhosted
+          path: build/libs/*.jar
+
+      - name: Attach to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$TAG" build/libs/*.jar --clobber

@@ -1,0 +1,11 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "All rights reserved"
+
+[[mods]]
+modId = "mcstatus"
+version = "${version}"
+displayName = "MCStatus"
+authors = "Alexander Epolite"
+description = "Self-hosted MCStatus Discord bot"
+displayTest = "IGNORE_ALL_VERSION"

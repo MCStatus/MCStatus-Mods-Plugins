@@ -1,0 +1,1 @@
+{"id":"mcstatus","name":"MCStatus","version":"${version}","url":"https://mcstatus.me","authors":["Alexander Epolite"],"dependencies":[],"main":"me.mcstatus.selfhosted.VelocityPlugin"}

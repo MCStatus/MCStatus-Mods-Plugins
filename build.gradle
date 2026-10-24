@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '9.6.1'
+}
+
+group = 'me.mcstatus'
+// CI passes -PreleaseVersion=<tag>; local builds use the default
+version = findProperty('releaseVersion') ?: '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+// Compile-only copies of the three mod-loader entrypoint types; the real ones come from the loader at runtime.
+sourceSets { stubs }
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT'
+    compileOnly 'net.md-5:bungeecord-api:1.21-R0.4'
+    compileOnly 'com.velocitypowered:velocity-api:3.4.0'
+    compileOnly 'com.google.code.gson:gson:2.8.9'
+    compileOnly 'org.slf4j:slf4j-api:1.7.36'
+    compileOnly sourceSets.stubs.output
+    implementation 'org.yaml:snakeyaml:2.3'
+    testImplementation 'com.google.code.gson:gson:2.8.9'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filesMatching(['plugin.yml', 'bungee.yml', 'velocity-plugin.json', 'fabric.mod.json', 'META-INF/*.toml']) { expand props }
+}
+
+shadowJar {
+    archiveBaseName = 'MCStatus-Selfhosted'
+    archiveClassifier = ''
+    relocate 'org.yaml.snakeyaml', 'me.mcstatus.selfhosted.lib.snakeyaml'
+    exclude 'META-INF/versions/**', 'META-INF/maven/**', 'module-info.class'
+    addMultiReleaseAttribute = false
+}
+
+jar.enabled = false
+assemble.dependsOn shadowJar
+
+tasks.register('selfCheck', JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'me.mcstatus.selfhosted.SelfCheck'
+}
+check.dependsOn selfCheck
+test.enabled = false // SelfCheck is a plain main(), not a test framework

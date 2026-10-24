@@ -1,0 +1,99 @@
+# ============
+# MCStatus Self-Hosted
+# Help: https://discord.gg/5JX2Q3dHDt
+#
+# Restart the server after changing this file.
+# ============
+
+# Your own bot's token. Create a bot at https://discord.com/developers/applications
+# (Bot page -> Reset Token), then invite it with the "bot" and "applications.commands"
+# scopes and the Send Messages, Embed Links and Read Message History permissions.
+bot-token: ""
+
+# The ID of your Discord server, so /status shows up instantly.
+# Leave empty to register /status in every server the bot is in.
+discord-server-id: ""
+
+# Optional text command prefix. "!" makes "!status" (and "!status <server name>") work.
+# Leave empty to only use /status. A prefix requires turning on the
+# "Message Content Intent" on the Bot page of the developer portal.
+prefix: ""
+
+# Channel ID for a status message the bot keeps updated. Leave empty to disable.
+live-update-channel-id: ""
+
+# Seconds between live updates (minimum 10).
+live-update-interval: 30
+
+# Up to 5 servers. With more than one, /status asks which server to show,
+# and the live update message shows all of them.
+servers:
+  - name: "Minecraft Server"
+    # host:port to ping. Leave empty for this server (or this proxy) itself.
+    # On a proxy, list your backend servers here, e.g. "127.0.0.1:25566".
+    address: ""
+    # Shown at the bottom of the panel, e.g. your server IP. Leave empty for none.
+    footer: "play.example.com"
+    # Makes the panel title a link. Leave empty for none.
+    website: ""
+    # Image URL for the corner of the panel. Leave empty to use the server's own
+    # server-icon.png, or the MCStatus icon if it has none.
+    icon-url: ""
+    # Overrides the version shown, e.g. "1.20 - 1.21". Leave empty to use the server's own.
+    version: ""
+    # Player cap to show while the server is offline and the bot hasn't seen it online yet.
+    # Once the server has been online, its real cap is used.
+    max-players: 20
+#  - name: "Creative"
+#    address: "127.0.0.1:25567"
+#    footer: "play.example.com"
+#    website: ""
+#    icon-url: ""
+#    version: ""
+#    max-players: 20
+
+# How the status panel looks. Applies to every server.
+panel:
+  online-color: "#6C9B47"
+  offline-color: "#C74E4E"
+  # Title for a server whose name is left as "Minecraft Server".
+  default-title: "Server Status"
+  # Put the Status, Player Count and Version fields side by side.
+  inline-fields: true
+
+  show-status: true
+  status-label: "Status"
+  online-text: "Online"
+  offline-text: "Offline"
+
+  show-player-count: true
+  # false shows "5" instead of "5/20".
+  show-max-players: true
+  player-count-label: "Player Count"
+
+  show-version: true
+  version-label: "Version"
+
+  # The player names the server shares in its ping (vanilla shares up to 12).
+  show-player-list: true
+  player-list-label: "Players"
+
+  # The MOTD, or the offline text below when the server is down.
+  show-motd: true
+  no-motd-text: "No MOTD specified"
+  offline-description: "Server is currently offline"
+
+  show-icon: true
+  show-timestamp: true
+
+# Text the bot uses outside the panel.
+messages:
+  # Name of the slash command and the prefix command. Lowercase letters, numbers, - or _.
+  command-name: "status"
+  command-description: "View the Minecraft server status panel."
+  # The server choice shown when you have more than one server.
+  server-option-name: "server"
+  server-option-description: "The name of the Minecraft server."
+  # Reply to a prefix command naming a server that doesn't exist.
+  # %name% is what was typed, %servers% is the list of server names.
+  unknown-server: "Unknown server `%name%`. Try one of: %servers%"

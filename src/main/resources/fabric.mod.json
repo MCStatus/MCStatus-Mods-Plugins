@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "mcstatus",
+  "version": "${version}",
+  "name": "MCStatus",
+  "description": "Self-hosted MCStatus Discord bot",
+  "authors": ["Alexander Epolite"],
+  "contact": {"homepage": "https://mcstatus.me"},
+  "environment": "server",
+  "entrypoints": {"server": ["me.mcstatus.selfhosted.FabricMod"]},
+  "depends": {"fabricloader": ">=0.14.0", "minecraft": ">=1.18", "java": ">=17"}
+}

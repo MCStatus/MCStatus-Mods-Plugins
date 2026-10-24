@@ -1,0 +1,5 @@
+name: MCStatus
+version: '${version}'
+main: me.mcstatus.selfhosted.BungeePlugin
+author: Alexander Epolite
+description: Self-hosted MCStatus Discord bot
