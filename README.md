@@ -88,6 +88,3 @@ icon, and `icon-url` overrides both.
 ```
 
 Requires JDK 17 or newer. The jar is written to `build/libs/`.
-
-Publishing a GitHub release runs `.github/workflows/release.yml`, which builds the jar with the release tag as its
-version (`v1.2.0` becomes `1.2.0`) and attaches it to the release.
