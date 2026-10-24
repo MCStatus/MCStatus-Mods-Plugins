@@ -1,6 +1,6 @@
 # MCStatus Self-Hosted
 
-![VibeCoded with Claude Opus 5.5](https://img.shields.io/badge/VibeCoded%20with-Claude%20Opus%205.5-D97757?logo=claude&logoColor=white)
+![Vibecoded with Claude Opus 5.5](https://img.shields.io/badge/Vibecoded%20with-Claude%20Opus%205.5-D97757?logo=claude&logoColor=white)
 
 Run the MCStatus Discord bot from inside your own Minecraft server, using your own bot.
 
@@ -32,28 +32,28 @@ switches to offline when the server stops. Proxy rows list the proxy itself and 
 
 | Platform | Minecraft | Loader / build | Java | Result |
 |---|---|---|---|---|
-| Paper | 1.18.2 | Paper build 388 | 17 | ✅ Pass |
-| Paper | 1.20.4 | Paper build 499 | 17 | ✅ Pass |
-| Paper | 1.21.4 | Paper build 232 | 21 | ✅ Pass |
-| Paper | 26.1.2 | Paper build 74 | 25 | ✅ Pass |
-| Paper | 26.3 | Paper build 218 | 25 | ✅ Pass |
-| Fabric | 1.18.2 | Fabric Loader 0.20.1 | 17 | ✅ Pass |
-| Fabric | 1.20.1 | Fabric Loader 0.20.1 | 17 | ✅ Pass |
-| Fabric | 1.21.1 | Fabric Loader 0.20.1 | 21 | ✅ Pass |
-| Fabric | 26.1.2 | Fabric Loader 0.20.1 | 25 | ✅ Pass |
-| Fabric | 26.3 | Fabric Loader 0.20.1 | 25 | ✅ Pass |
-| Forge | 1.18.2 | Forge 40.3.0 | 17 | ✅ Pass |
-| Forge | 1.19.2 | Forge 43.5.0 | 17 | ✅ Pass |
-| Forge | 1.20.1 | Forge 47.4.28 | 17 | ✅ Pass |
-| Forge | 1.21.1 | Forge 52.1.20 | 21 | ✅ Pass |
-| Forge | 26.3 | Forge 66.1.0 | 25 | ✅ Pass |
-| NeoForge | 1.20.1 | NeoForge 47.1.106 | 17 | ✅ Pass |
-| NeoForge | 1.20.4 | NeoForge 20.4.253 | 17 | ✅ Pass |
-| NeoForge | 1.21.1 | NeoForge 21.1.264 | 21 | ✅ Pass |
-| NeoForge | 26.3 | NeoForge 26.3.0.95 | 25 | ✅ Pass |
-| Velocity | proxy (backend: Paper 26.3) | Velocity 3.5.1 build 615 | 25 | ✅ Pass |
-| Velocity | proxy (backend: Paper 26.3) | Velocity 4.3.0 build 44 | 25 | ✅ Pass |
-| BungeeCord | proxy (backend: Paper 26.3) | BungeeCord 26.1-R0.1 (da0a) | 25 | ✅ Pass |
+| Paper | 1.18.2 | Paper build 388 | 17 | ✅ |
+| Paper | 1.20.4 | Paper build 499 | 17 | ✅ |
+| Paper | 1.21.4 | Paper build 232 | 21 | ✅ |
+| Paper | 26.1.2 | Paper build 74 | 25 | ✅ |
+| Paper | 26.3 | Paper build 218 | 25 | ✅ |
+| Fabric | 1.18.2 | Fabric Loader 0.20.1 | 17 | ✅ |
+| Fabric | 1.20.1 | Fabric Loader 0.20.1 | 17 | ✅ |
+| Fabric | 1.21.1 | Fabric Loader 0.20.1 | 21 | ✅ |
+| Fabric | 26.1.2 | Fabric Loader 0.20.1 | 25 | ✅ |
+| Fabric | 26.3 | Fabric Loader 0.20.1 | 25 | ✅ |
+| Forge | 1.18.2 | Forge 40.3.0 | 17 | ✅ |
+| Forge | 1.19.2 | Forge 43.5.0 | 17 | ✅ |
+| Forge | 1.20.1 | Forge 47.4.28 | 17 | ✅ |
+| Forge | 1.21.1 | Forge 52.1.20 | 21 | ✅ |
+| Forge | 26.3 | Forge 66.1.0 | 25 | ✅ |
+| NeoForge | 1.20.1 | NeoForge 47.1.106 | 17 | ✅ |
+| NeoForge | 1.20.4 | NeoForge 20.4.253 | 17 | ✅ |
+| NeoForge | 1.21.1 | NeoForge 21.1.264 | 21 | ✅ |
+| NeoForge | 26.3 | NeoForge 26.3.0.95 | 25 | ✅ |
+| Velocity | proxy (backend: Paper 26.3) | Velocity 3.5.1 build 615 | 25 | ✅ |
+| Velocity | proxy (backend: Paper 26.3) | Velocity 4.3.0 build 44 | 25 | ✅ |
+| BungeeCord | proxy (backend: Paper 26.3) | BungeeCord 26.1-R0.1 (da0a) | 25 | ✅ |
 
 ## Setup
 
@@ -80,12 +80,6 @@ Everything lives in `config.yml`, and every option is explained there:
 
 The panel icon is the server's own `server-icon.png`, uploaded with the message. Servers without one show the MCStatus
 icon, and `icon-url` overrides both.
-
-## Notes
-
-- Status comes from pinging the server, the same way the MCStatus bot does. The player list is whatever the server
-  includes in its ping, and vanilla caps that at 12 names.
-- Restart the server to apply config changes.
 
 ## Building
 
